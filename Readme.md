@@ -13,5 +13,5 @@ Check the correct versions with `mvn --version`
 ### How to run
 - build the project `mvn clean package`
 - run locally `java -jar target/delivery-server-1.0-SNAPSHOT.jar`  
-  Service can be accessed via [http://localhost:8080/v1/delivery/people](http://localhost:8080/v1/customers/people)
+  Service can be accessed via [http://localhost:8080/v1/delivery/people](http://localhost:8080/v1/delivery/people)
 
