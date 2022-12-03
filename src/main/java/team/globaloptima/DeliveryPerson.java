@@ -1,9 +1,25 @@
 package team.globaloptima;
 
-public class DeliveryPerson {
+import javax.persistence.*;
+import java.io.Serializable;
+
+@Entity
+@Table(name = "deliveryperson")
+@NamedQueries({
+        @NamedQuery(
+                name = "DeliveryPerson.findDeliveryPerson",
+                query = "SELECT d FROM DeliveryPerson d"
+        )
+})
+public class DeliveryPerson implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "firstName")
     private String firstName;
+    @Column(name = "lastName")
     private String lastName;
+    @Column(name = "transportId")
     private String transportId;
 
     public Integer getId() {
