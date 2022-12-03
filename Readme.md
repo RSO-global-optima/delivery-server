@@ -4,6 +4,8 @@
 - Accept requests for order delivery
 - Create reviews for customers (optional)
 
+---
+
 ### Requirements
 - Java openjdk-19.0.1
 - Maven 3.8.6
