@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: delivery-server-deployment2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: globaloptima-delivery
+  template:
+    metadata:
+      labels:
+        app: globaloptima-delivery
+    spec:
+      containers:
+        - image: mzakel/globaloptima-delivery:2022-12-03-23-18-41
+          name: globaloptima-delivery
+          env:
+            - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
+              value: jdbc:postgresql://ella.db.elephantsql.com:5432/plzqtyca
+            - name: KUMULUZEE_DATASOURCES0_USERNAME
+              value: plzqtyca
+            - name: KUMULUZEE_DATASOURCES0_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pg-pass-delivery
+                  key: password
+          ports:
+            - containerPort: 8080
+              name: server
+              protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: globaloptima-delivery
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8090
+      protocol: TCP
+      targetPort: server
+  selector:
+    app: globaloptima-delivery
