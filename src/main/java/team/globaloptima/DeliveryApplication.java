@@ -18,7 +18,7 @@ import javax.ws.rs.core.Application;
 @ApplicationPath("v1")
 @OpenAPIDefinition(info = @Info(title = "DeliveryApi", version = "v1.0.0",
         contact = @Contact(), license = @License(name="No License")),
-        servers = @Server(url = "http://localhost:8080/v1"),
+        servers = @Server(url = "http://localhost:8081/v1"),
         security = @SecurityRequirement(name = "openid-connect"))
 public class DeliveryApplication extends Application{
 

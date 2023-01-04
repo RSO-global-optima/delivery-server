@@ -22,6 +22,16 @@ public class DeliveryPerson implements Serializable {
     @Column(name = "transportId")
     private String transportId;
 
+    @Column(name = "currentAddress")
+    private String currentAddress;
+    public String getCurrentAddress() {
+        return currentAddress;
+    }
+
+    public void setCurrentAddress(String currentAddress) {
+        this.currentAddress = currentAddress;
+    }
+
     public Integer getId() {
         return id;
     }
