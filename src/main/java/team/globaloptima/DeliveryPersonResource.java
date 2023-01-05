@@ -15,12 +15,21 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Objects;
 import javax.inject.Inject;
+import javax.enterprise.context.RequestScoped;
+
+import org.eclipse.microprofile.metrics.ConcurrentGauge;
+import org.eclipse.microprofile.metrics.Histogram;
+import org.eclipse.microprofile.metrics.Meter;
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.*;
+
 
 import team.globaloptima.DeliveryTime;
 
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Path("delivery/people")
+@RequestScoped
 public class DeliveryPersonResource {
 
     @Inject
@@ -88,11 +97,12 @@ public class DeliveryPersonResource {
             @APIResponse(description = "Estimated time in minutes", responseCode = "200")
     })
     @Path("time")
+    @Metered(name = "external-api-requests")
+    @Timed(name = "get-estimated-delivery-timer")
     public Response getEstimatedDeliveryTime(
             @QueryParam("customerAddress") String customerAddress,
             @QueryParam("supplierAddress") String supplierAddress
     ) {
-
         // convert CUSTOMER Address to geolocation
         double[] customerLatLon = deliveryTime.getAddressLatLon(customerAddress);
         System.out.println(customerLatLon[0]);

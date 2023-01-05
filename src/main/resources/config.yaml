@@ -27,7 +27,7 @@ kumuluzee:
         threshold: 100000000
       data-source-health-checks:
         - jndi-name: jdbc/DeliveryDS
-        type: liveness
+        - type: liveness
       http-health-check:
         - connection-url: https://trueway-matrix.p.rapidapi.com
   persistence-units:
@@ -48,4 +48,10 @@ kumuluzee:
       mapping: /openapi/ui
     scanning:
       debug: true
-
+  metrics:
+    servlet:
+      enabled: true
+      mapping: /metrics
+    web-instrumentation:
+      - name: metricsEndpoint
+        url-pattern: /metrics/*
