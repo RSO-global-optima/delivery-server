@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Objects;
 import javax.inject.Inject;
 
+import team.globaloptima.DeliveryTime;
+
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Path("delivery/people")
@@ -23,6 +25,10 @@ public class DeliveryPersonResource {
 
     @Inject
     DeliveryPersonService deliveryPersonBean;
+
+    private DeliveryTime deliveryTime = new DeliveryTime();
+
+    private Integer speedDelivery = 5;
 
     @GET
     @Operation(summary = "Get a list of delivery people", description = "Returns a list of all delivery people.")
@@ -75,4 +81,31 @@ public class DeliveryPersonResource {
         deliveryPersonBean.deleteDeliveryPerson(deliveryPersonId);
         return Response.noContent().build();
     }
+
+    @GET
+    @Operation(summary = "Get estimated time", description = "Returns estimated time for delivery.")
+    @APIResponses({
+            @APIResponse(description = "Estimated time in minutes", responseCode = "200")
+    })
+    @Path("time")
+    public Response getEstimatedDeliveryTime(
+            @QueryParam("customerAddress") String customerAddress,
+            @QueryParam("supplierAddress") String supplierAddress
+    ) {
+
+        // convert CUSTOMER Address to geolocation
+        double[] customerLatLon = deliveryTime.getAddressLatLon(customerAddress);
+        System.out.println(customerLatLon[0]);
+
+
+        // convert SUPPLIER Address to geolocation
+        double[] supplierLatLon = deliveryTime.getAddressLatLon(supplierAddress);
+        System.out.println(supplierLatLon[0]);
+
+        // get estimated time
+        Integer durationSec = deliveryTime.getEstimateDistance(customerLatLon, supplierLatLon);
+
+        return Response.ok(durationSec).build();
+    }
+
 }
