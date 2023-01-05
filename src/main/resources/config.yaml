@@ -14,6 +14,22 @@ kumuluzee:
       password: postgres
       pool:
         max-size: 2
+  health:
+    servlet:
+      mapping: /health
+      enabled: true
+    logs:
+      enabled: true
+      level: INFO
+      period-s: 60
+    checks:
+      disk-space-health-check:
+        threshold: 100000000
+      data-source-health-checks:
+        - jndi-name: jdbc/DeliveryDS
+        type: liveness
+      http-health-check:
+        - connection-url: https://trueway-matrix.p.rapidapi.com
   persistence-units:
     - name: "team-globaloptima-delivery-person"
       continue-on-error: false
@@ -32,3 +48,4 @@ kumuluzee:
       mapping: /openapi/ui
     scanning:
       debug: true
+
